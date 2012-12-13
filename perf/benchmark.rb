@@ -3,7 +3,7 @@ require "mongoid"
 require "./perf/models"
 
 Mongoid.configure do |config|
-  config.master = Mongo::Connection.new.db("mongoid_perf_test")
+  config.master = Mongo::MongoClient.new.db("mongoid_perf_test")
 end
 
 Mongoid.master.collections.select {|c| c.name !~ /system/ }.each(&:remove)

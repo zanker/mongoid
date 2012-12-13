@@ -19,11 +19,11 @@ describe Mongoid::Config::ReplsetDatabase do
       end
 
       let(:repl_set_connection) do
-        stub.quacks_like(Mongo::ReplSetConnection.allocate)
+        stub.quacks_like(Mongo::MongoReplicaSetClient.allocate)
       end
 
       before do
-        Mongo::ReplSetConnection.stubs(:new).returns(repl_set_connection)
+        Mongo::MongoReplicaSetClient.stubs(:new).returns(repl_set_connection)
         repl_set_connection.expects(:db)
         repl_set_connection.expects(:add_auth).never
         repl_set_connection.expects(:apply_saved_authentication).never
@@ -45,11 +45,11 @@ describe Mongoid::Config::ReplsetDatabase do
       end
 
       let(:repl_set_connection) do
-        stub.quacks_like(Mongo::ReplSetConnection.allocate)
+        stub.quacks_like(Mongo::MongoReplicaSetClient.allocate)
       end
 
       before do
-        Mongo::ReplSetConnection.stubs(:new).returns(repl_set_connection)
+        Mongo::MongoReplicaSetClient.stubs(:new).returns(repl_set_connection)
       end
 
       it "should add authentication and apply" do

@@ -23,7 +23,7 @@ def database_id
 end
 
 Mongoid.configure do |config|
-  database = Mongo::Connection.new(HOST, PORT).db(database_id)
+  database = Mongo::MongoClient.new(HOST, PORT).db(database_id)
   database.add_user("mongoid", "test")
   config.master = database
   config.logger = nil

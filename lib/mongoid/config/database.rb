@@ -79,11 +79,11 @@ module Mongoid #:nodoc:
       # @example Create the connection.
       #   db.connection
       #
-      # @return [ Mongo::Connection ] The mongo connection.
+      # @return [ Mongo::MongoClient ] The mongo connection.
       #
       # @since 2.0.0.rc.1
       def master
-        Mongo::Connection.from_uri(uri(self), optional.symbolize_keys).tap do |conn|
+        Mongo::MongoClient.from_uri(uri(self), optional.symbolize_keys).tap do |conn|
           conn.apply_saved_authentication
         end
       end
@@ -94,12 +94,12 @@ module Mongoid #:nodoc:
       # @example Create the connection.
       #   db.connection
       #
-      # @return [ Array<Mongo::Connection> ] The mongo slave connections.
+      # @return [ Array<Mongo::MongoClient> ] The mongo slave connections.
       #
       # @since 2.0.0.rc.1
       def slaves
         (self["slaves"] || []).map do |options|
-          Mongo::Connection.from_uri(uri(options), optional(true).symbolize_keys).tap do |conn|
+          Mongo::MongoClient.from_uri(uri(options), optional(true).symbolize_keys).tap do |conn|
             conn.apply_saved_authentication
           end
         end

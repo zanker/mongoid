@@ -106,7 +106,7 @@ module Mongoid #:nodoc
   #     name = "mongoid_test"
   #     host = "localhost"
   #     config.allow_dynamic_fields = false
-  #     config.master = Mongo::Connection.new.db(name)
+  #     config.master = Mongo::MongoClient.new.db(name)
   #   end
   #
   # @return [ Config ] The configuration obejct.
@@ -140,7 +140,7 @@ module Mongoid #:nodoc
   # them to be accessed through the Mongoid module directly.
   #
   # @example Delegate the configuration methods.
-  #   Mongoid.database = Mongo::Connection.new.db("test")
+  #   Mongoid.database = Mongo::MongoClient.new.db("test")
   #
   # @since 1.0.0
   delegate *(Config.public_instance_methods(false) +

@@ -55,7 +55,7 @@ For instructions on upgrading to newer versions, visit
 ### Resolved Issues
 
 * This release forces a cap on the mongo driver version at 1.6.2 due to
-  changes in the `Mongo::Connection.from_uri` API not allowing valid
+  changes in the `Mongo::MongoClient.from_uri` API not allowing valid
   connection options anymore.
 
 * \#2040 Fixed bad interpolation for locale presence validation.
@@ -1117,7 +1117,7 @@ This was a specific release to get a Psych generated gemspec so no more parse er
 
 * Added ability to chain `order_by` statements. (Gregory Man)
 
-* \#961 Allow arbitrary `Mongo::Connection` options to pass through `Mongoid::Config::Database` object. (Morgan Nelson)
+* \#961 Allow arbitrary `Mongo::MongoClient` options to pass through `Mongoid::Config::Database` object. (Morgan Nelson)
 
 * Enable `autosave` for many to many references. (Dave Krupinski)
 

@@ -85,7 +85,7 @@ describe Mongoid::Cursor do
 
       before do
         proxy.expects(:next_document).in_sequence(seq).raises(
-          Mongo::ConnectionFailure.new
+          Mongo::MongoClientFailure.new
         )
         proxy.expects(:next_document).in_sequence(seq).returns({})
         proxy.expects(:next_document).in_sequence(seq).returns(nil)

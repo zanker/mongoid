@@ -28,6 +28,7 @@ module Mongoid #:nodoc
     option :parameterize_keys, :default => true
     option :scope_overwrite_exception, :default => false
     option :persist_in_safe_mode, :default => false
+    option :default_write_concern, :default => {:w => 0}
     option :preload_models, :default => false
     option :raise_not_found_error, :default => true
     option :skip_version_check, :default => false
@@ -53,7 +54,7 @@ module Mongoid #:nodoc
       end
     end
 
-    # keys to remove from self to not pass through to Mongo::Connection
+    # keys to remove from self to not pass through to Mongo::MongoClient
     PRIVATE_OPTIONS =
       %w(uri host hosts port database databases username
          password logger use_activesupport_time_zone)
@@ -196,7 +197,7 @@ module Mongoid #:nodoc
     # set is not a valid +Mongo::DB+, then an error will be raised.
     #
     # @example Set the master database.
-    #   config.master = Mongo::Connection.new.db("test")
+    #   config.master = Mongo::MongoClient.new.db("test")
     #
     # @param [ Mongo::DB ] db The master database.
     #

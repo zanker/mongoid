@@ -9,7 +9,7 @@ module Mongoid #:nodoc:
       #
       # This is useful when using replica sets. When a primary server wents
       # down and a command is issued, the driver will raise a
-      # Mongo::ConnectionFailure. We wait a little bit, because nodes are
+      # Mongo::MongoClientFailure. We wait a little bit, because nodes are
       # electing themselves, and then retry the given command.
       #
       # By setting Mongoid.max_retries_on_connection_failure to a value of 0,
@@ -27,7 +27,7 @@ module Mongoid #:nodoc:
         retries = 0
         begin
           yield
-        rescue Mongo::ConnectionFailure => ex
+        rescue Mongo::MongoClientFailure => ex
           retries = increase_retry_attempts(retries, ex)
           retry
         rescue Mongo::OperationFailure => ex

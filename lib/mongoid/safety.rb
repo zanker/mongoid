@@ -23,8 +23,8 @@ module Mongoid #:nodoc:
     # @option options [ true, false ] :fsync Should a fsync occur.
     #
     # @return [ Proxy ] The safety proxy.
-    def safely(safety = true)
-      tap { Threaded.safety_options = safety }
+    def safely(safety = 1)
+      tap { Threaded.safety_options = safety.is_a?(Integer) ? {:w => safety} : safety }
     end
 
     # Execute the following instance-level persistence operation without safe mode.
@@ -36,7 +36,7 @@ module Mongoid #:nodoc:
     #
     # @return [ Proxy ] The safety proxy.
     def unsafely
-      tap { Threaded.safety_options = false }
+      tap { Threaded.safety_options = {:w => 0} }
     end
 
     class << self
@@ -56,12 +56,12 @@ module Mongoid #:nodoc:
         options ||= {}
         return options if options[:safe]
 
-        unless Threaded.safety_options.nil?
+        if !Threaded.safety_options.nil?
           safety = Threaded.safety_options
-        else
-          safety = Mongoid.persist_in_safe_mode
+        elsif Mongoid.default_write_concern
+          safety = Mongoid.default_write_concern
         end
-        options.merge!({ :safe => safety })
+        options.merge!(safety)
       end
     end
 
@@ -83,8 +83,8 @@ module Mongoid #:nodoc:
       # @option options [ true, false ] :fsync Should a fsync occur.
       #
       # @return [ Proxy ] The safety proxy.
-      def safely(safety = true)
-        tap { Threaded.safety_options = safety }
+      def safely(safety = 1)
+        tap { Threaded.safety_options = safety.is_a?(Integer) ? {:w => safety} : safety }
       end
 
       # Execute the following class-level persistence operation without safe mode.
@@ -98,7 +98,7 @@ module Mongoid #:nodoc:
       #
       # @since 2.3.0
       def unsafely
-        tap { Threaded.safety_options = false }
+        tap { Threaded.safety_options = {:w => 0} }
       end
     end
   end

@@ -19,7 +19,7 @@ module Mongoid #:nodoc:
         # mongo likes symbols
         options = reject{ |key, value| Config.blacklisted_options.include?(key.to_s) }
         options["logger"] = Mongoid::Logger.new
-        connection = Mongo::ReplSetConnection.new(*(hosts.clone << options.symbolize_keys))
+        connection = Mongo::MongoReplicaSetClient.new(*(hosts.clone << options.symbolize_keys))
 
         if authenticating?
           connection.add_auth(database, username, password)
@@ -69,7 +69,7 @@ module Mongoid #:nodoc:
       # @option options [ Boolean ] :read_secondary Tells the driver to read from secondaries.
       # ...
       #
-      # @see Mongo::ReplSetConnection for all options
+      # @see Mongo::MongoReplicaSetClient for all options
       #
       # @since 2.0.0.rc.5
       def initialize(options = {})

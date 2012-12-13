@@ -211,7 +211,7 @@ describe Mongoid::Config::Database do
           }
         end
 
-        it "connect=false doesn't connect Mongo::Connection" do
+        it "connect=false doesn't connect Mongo::MongoClient" do
           connection.should_not be_connected
         end
       end

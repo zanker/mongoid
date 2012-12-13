@@ -8,9 +8,9 @@ module Support #:nodoc:
         user = ENV["MONGOHQ_USER_MONGOID"]
         password = ENV["MONGOHQ_PASSWORD_MONGOID"]
         mongohq_uri = "mongodb://#{user}:#{password}@flame.mongohq.com:27040/mongoid"
-        Mongo::Connection.from_uri(mongohq_uri)
+        Mongo::MongoClient.from_uri(mongohq_uri)
         true
-      rescue Mongo::ConnectionFailure => e
+      rescue Mongo::MongoClientFailure => e
         false
       rescue Mongo::MongoArgumentError => e
         false
