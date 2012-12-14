@@ -54,14 +54,20 @@ module Mongoid #:nodoc:
       # @since 2.1.0
       def merge_safety_options(options = {})
         options ||= {}
-        return options if options[:safe]
-
-        if !Threaded.safety_options.nil?
-          safety = Threaded.safety_options
-        elsif Mongoid.default_write_concern
-          safety = Mongoid.default_write_concern
+        if options[:w] or options[:j] or options[:fsync] or options[:wtimeout]
+          return options
         end
-        options.merge!(safety)
+
+        # Overriding for this request
+        if !Threaded.safety_options.nil?
+          options.merge!(Threaded.safety_options)
+        # More clear config variable
+        elsif Mongoid.default_write_concern
+          options.merge!(Mongoid.default_write_concern)
+        # If we're persisting in safe mode, then w should be 1, otherwise 0
+        else
+          options.merge!(:w => Mongoid.persist_in_safe_mode ? 1 : 0)
+        end
       end
     end
 
