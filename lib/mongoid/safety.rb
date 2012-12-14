@@ -59,7 +59,7 @@ module Mongoid #:nodoc:
         end
 
         # Overriding for this request
-        if !Threaded.safety_options.nil?
+        if Threaded.safety_options
           options.merge!(Threaded.safety_options)
         # More clear config variable
         elsif Mongoid.default_write_concern
